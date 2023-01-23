@@ -208,14 +208,21 @@ add_filter( 'ai1wm_exclude_themes_from_export', function ( $exclude_filters ) {
 
 add_filter('acf/fields/google_map/api', 'universityMapKey'); */
 
-//registers Banner Block
-function bannerBlock() {
-    wp_register_script('bannerBlockScript', get_stylesheet_directory_uri() . '/build/banner.js', array('wp-blocks', 'wp-editor'));
-    register_block_type("ourblocktheme/banner", array(
-        'editor_script' => 'bannerBlockScript'
+
+class registerCustomBlock {
+    function __construct($name) {
+        $this->name = $name;
+        add_action('init', [$this, 'onInit']);        
+    }
+
+    function onInit() {
+        wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+        register_block_type("ourblocktheme/{$this->name}", array(
+        'editor_script' => $this->name
     ));
+    }
 }
 
-add_action('init', 'bannerBlock');
-
+new registerCustomBlock('banner');
+new registerCustomBlock('genericheading');
 ?>
