@@ -225,4 +225,5 @@ class registerCustomBlock {
 
 new registerCustomBlock('banner');
 new registerCustomBlock('genericheading');
+new registerCustomBlock('genericbutton');
 ?>

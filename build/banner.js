@@ -151,7 +151,7 @@ function EditComponent() {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "page-banner__content container t-center c-white"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
-    allowedBlocks: ["ourblocktheme/genericheading"]
+    allowedBlocks: ["ourblocktheme/genericheading", "ourblocktheme/genericbutton"]
   })));
 }
 function SaveComponent() {
