@@ -210,20 +210,35 @@ add_filter('acf/fields/google_map/api', 'universityMapKey'); */
 
 
 class registerCustomBlock {
-    function __construct($name) {
+    function __construct($name, $renderCallback = null) {
         $this->name = $name;
+        $this->renderCallback = $renderCallback;
         add_action('init', [$this, 'onInit']);        
+    }
+
+    function ourRenderCallback($attributes, $content) {
+        ob_start();
+        require get_theme_file_path("/our-blocks/{$this->name}.php");
+        return ob_get_clean();
     }
 
     function onInit() {
         wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
-        register_block_type("ourblocktheme/{$this->name}", array(
-        'editor_script' => $this->name
-    ));
+
+        $ourArgs = array(
+            'editor_script' => $this->name
+        );
+
+        //if this evaluates to true
+        if ($this->renderCallback) {
+            $ourArgs['render_callback'] = [$this, 'ourRenderCallback'];
+        }
+
+        register_block_type("ourblocktheme/{$this->name}", $ourArgs);
     }
 }
 
-new registerCustomBlock('banner');
+new registerCustomBlock('banner', true);
 new registerCustomBlock('genericheading');
 new registerCustomBlock('genericbutton');
 ?>
