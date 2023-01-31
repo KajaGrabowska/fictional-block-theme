@@ -208,10 +208,37 @@ add_filter( 'ai1wm_exclude_themes_from_export', function ( $exclude_filters ) {
 
 add_filter('acf/fields/google_map/api', 'universityMapKey'); */
 
+class PlaceholderBlock {
+    function __construct($name) {
+        $this->name = $name;
+        add_action('init', [$this, 'onInit']);        
+    }
+
+    function ourRenderCallback($attributes, $content) {
+        ob_start();
+        require get_theme_file_path("/our-blocks/{$this->name}.php");
+        return ob_get_clean();
+    }
+
+    function onInit() {
+        wp_register_script($this->name, get_stylesheet_directory_uri() . "/our-blocks/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+
+        $ourArgs = array(
+            'editor_script' => $this->name,
+            'render_callback' => [$this, 'ourRenderCallback']
+        );
+
+        register_block_type("ourblocktheme/{$this->name}", $ourArgs);
+    }
+}
+
+new PlaceholderBlock('eventsandblogs');
+new PlaceholderBlock('header');
 
 class registerCustomBlock {
-    function __construct($name, $renderCallback = null) {
+    function __construct($name, $renderCallback = null, $data = null) {
         $this->name = $name;
+        $this->data = $data;
         $this->renderCallback = $renderCallback;
         add_action('init', [$this, 'onInit']);        
     }
@@ -224,6 +251,10 @@ class registerCustomBlock {
 
     function onInit() {
         wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+
+        if ($this->data) {
+            wp_localize_script($this->name, $this->name, $this->data);
+        }
 
         $ourArgs = array(
             'editor_script' => $this->name
@@ -238,7 +269,7 @@ class registerCustomBlock {
     }
 }
 
-new registerCustomBlock('banner', true);
+new registerCustomBlock('banner', true, ['fallbackimage' => get_theme_file_uri('/images/library-hero.jpg')]);
 new registerCustomBlock('genericheading');
 new registerCustomBlock('genericbutton');
 ?>
