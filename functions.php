@@ -234,6 +234,7 @@ class PlaceholderBlock {
 
 new PlaceholderBlock('eventsandblogs');
 new PlaceholderBlock('header');
+new PlaceholderBlock('footer');
 
 class registerCustomBlock {
     function __construct($name, $renderCallback = null, $data = null) {
