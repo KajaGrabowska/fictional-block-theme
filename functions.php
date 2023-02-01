@@ -273,4 +273,6 @@ class registerCustomBlock {
 new registerCustomBlock('banner', true, ['fallbackimage' => get_theme_file_uri('/images/library-hero.jpg')]);
 new registerCustomBlock('genericheading');
 new registerCustomBlock('genericbutton');
+new registerCustomBlock('slideshow', true);
+new registerCustomBlock('slide', true);
 ?>
