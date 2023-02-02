@@ -274,5 +274,5 @@ new registerCustomBlock('banner', true, ['fallbackimage' => get_theme_file_uri('
 new registerCustomBlock('genericheading');
 new registerCustomBlock('genericbutton');
 new registerCustomBlock('slideshow', true);
-new registerCustomBlock('slide', true);
+new registerCustomBlock('slide', true, ['themeimagepath' => get_theme_file_uri('/images/')]);
 ?>

@@ -149,6 +149,9 @@ __webpack_require__.r(__webpack_exports__);
     align: ["full"]
   },
   attributes: {
+    themeimage: {
+      type: "string"
+    },
     align: {
       type: "string",
       default: "full"
@@ -165,6 +168,14 @@ __webpack_require__.r(__webpack_exports__);
   save: SaveComponent
 });
 function EditComponent(props) {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (props.attributes.themeimage) {
+      props.setAttributes({
+        imgURL: `${slide.themeimagepath}${props.attributes.themeimage}`
+      });
+    }
+  }, []);
+
   // anytime the second argument changes (in this case the imgID), React will call the function in first argument
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (props.attributes.imgID) {
@@ -174,6 +185,7 @@ function EditComponent(props) {
           method: "GET"
         });
         props.setAttributes({
+          themeimage: '',
           imgURL: response.media_details.sizes.pageBanner.source_url
         });
       }
