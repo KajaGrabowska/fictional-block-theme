@@ -238,6 +238,10 @@ new PlaceholderBlock('footer');
 new PlaceholderBlock('singlepost');
 new PlaceholderBlock('page');
 new PlaceholderBlock('blogindex');
+new PlaceholderBlock('programarchive');
+new PlaceholderBlock('singleprogram');
+new PlaceholderBlock('singleprofessor');
+new PlaceholderBlock('mynotes');
 
 class registerCustomBlock {
     function __construct($name, $renderCallback = null, $data = null) {
@@ -278,4 +282,17 @@ new registerCustomBlock('genericheading');
 new registerCustomBlock('genericbutton');
 new registerCustomBlock('slideshow', true);
 new registerCustomBlock('slide', true, ['themeimagepath' => get_theme_file_uri('/images/')]);
+
+// Restrict blocks from being added inside a FSE editor
+function myallowedblocks($allowed_block_types, $editor_context) {
+    //if you are on a page/post editor screen
+    if (!empty($editor_context->post)) {
+        return $allowed_block_types;
+    }
+
+    //if you are on the FSE screen
+    return array('ourblocktheme/header', 'ourblocktheme/footer');
+}
+
+add_filter('allowed_block_types_all', 'myallowedblocks', 10, 2);
 ?>
